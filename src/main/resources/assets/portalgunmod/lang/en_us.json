@@ -1,0 +1,15 @@
+{
+  "tooltip.portalgun": "Fires a portal using Portal fluid\nPortal destination can be set",
+
+  "creativetab.portalgunmod_tab": "Other Worlds",
+
+  "block.portalgunmod.whitest_block" : "Whitest Block",
+  "item.portalgunmod.portalprojectileitem": "Portal Fluid capsule",
+  "item.portalgunmod.portalgun": "Portal Gun",
+
+  "screen.portalgunmod.title" : "Portal Teleportation Vector",
+  "screen.portalgunmod.message" : "Yapping alert!!",
+  "screen.portalgunmod.portalLife" : "Exist for Seconds: ",
+  "screen.portalgunmod.disappearsAfterUse": "One use only",
+  "screen.portalgunmod.doesntDisappearAfterUse": "Multiple uses"
+}

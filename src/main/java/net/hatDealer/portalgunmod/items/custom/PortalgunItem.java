@@ -91,6 +91,7 @@ public abstract class PortalgunItem extends ProjectileWeaponItem {
                 PortalProjectileEntity abstractarrow = arrowitem.createArrow(pLevel, itemstack,
                         pPlayer, getPortalIndex(pStack), getPortalLifetime(pStack), getPortalDisappear(pStack));
                 abstractarrow = customArrow(abstractarrow);
+
                 abstractarrow.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 3.0F, 0.0F);
 
                 pLevel.addFreshEntity(abstractarrow);

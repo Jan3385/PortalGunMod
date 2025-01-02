@@ -70,7 +70,7 @@ public class PortalEntity extends Entity{
             this.disappearAfterUse = pData.disappearAfterUse;
 
             this.entityData.set(INITIALISED, true);
-            this.entityData.set(SIZE, 0f);
+            this.entityData.set(SIZE, 1f);
 
             this.canTeleport = true;
         }

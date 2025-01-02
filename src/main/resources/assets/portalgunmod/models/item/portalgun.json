@@ -5,13 +5,13 @@
       "predicate": {
         "charged": 0
       },
-      "model": "otherworlds:item/portalgun_3d_empty"
+      "model": "portalgunmod:item/portalgun_3d_empty"
     },
     {
       "predicate": {
         "charged": 1
       },
-      "model": "otherworlds:item/portalgun_3d"
+      "model": "portalgunmod:item/portalgun_3d"
     }
   ]
 }

@@ -20,7 +20,6 @@ import org.joml.Quaternionf;
 @OnlyIn(Dist.CLIENT)
 public class PortalRenderer extends EntityRenderer<PortalEntity> {
     private final PortalModel model;
-    private boolean renderedFirstTick = false;
     private float size = 1;
     public PortalRenderer(EntityRendererProvider.Context pContext) {
 

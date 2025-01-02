@@ -2,17 +2,17 @@
   "parent": "item/handheld",
   "loader": "forge:separate_transforms",
   "base": {
-    "parent": "otherworlds:item/portalprojectileitem_3d"
+    "parent": "portalgunmod:item/portalprojectileitem_3d"
   },
   "perspectives": {
     "gui": {
-      "parent": "otherworlds:item/portalprojectileitem_3d"
+      "parent": "portalgunmod:item/portalprojectileitem_3d"
     },
     "ground": {
-      "parent": "otherworlds:item/portalprojectileitem_3d"
+      "parent": "portalgunmod:item/portalprojectileitem_3d"
     },
     "fixed": {
-      "parent": "otherworlds:item/portalprojectileitem_3d"
+      "parent": "portalgunmod:item/portalprojectileitem_3d"
     }
   }
 }

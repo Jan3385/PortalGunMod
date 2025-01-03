@@ -7,14 +7,16 @@ public class PortalEntityData {
     public Vec3 pos;
     public int lifeTimeLength;
     public Direction dir;
-    public int DestinationIndex;
     public boolean disappearAfterUse;
-    public PortalEntityData(Vec3 pPos, int lifeTimeLength, Direction pDirection,
-                            int DestinationIndex, boolean disappearAfterUse){
+    public String DestinationDimKey;
+    public Vec3 DestinationPos;
+    public PortalEntityData(Vec3 pPos, int lifeTimeLength, Direction pDirection, boolean disappearAfterUse,
+                            String DestinationDimKey, Vec3 DestinationPos){
         this.pos = pPos;
         this.lifeTimeLength = lifeTimeLength;
         this.dir = pDirection;
-        this.DestinationIndex = DestinationIndex;
         this.disappearAfterUse = disappearAfterUse;
+        this.DestinationDimKey = DestinationDimKey;
+        this.DestinationPos = DestinationPos;
     }
 }

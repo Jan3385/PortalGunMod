@@ -21,6 +21,7 @@ import org.joml.Quaternionf;
 public class PortalRenderer extends EntityRenderer<PortalEntity> {
     private final PortalModel model;
     private float size = 1;
+    private static final int PortalAnimSpeed = 3;
     public PortalRenderer(EntityRendererProvider.Context pContext) {
 
         //super(pContext, new PortalModel<>(pContext.bakeLayer(ModModelLayers.PORTAL_LAYER)), 0f);
@@ -33,21 +34,22 @@ public class PortalRenderer extends EntityRenderer<PortalEntity> {
 
         pPoseStack.pushPose();
 
-        if(pEntity.getRawSize() <= 1 && pEntity.getRemainingTime() > 150) pEntity.IncrementSize(pPartialTicks/5f);
-        else if(pEntity.getRemainingTime() <= 5) pEntity.DecrementSize(pPartialTicks/5f);
+        size = 1;
 
-        size = pEntity.getSize();
+
+        if(pEntity.GetLifeTime() <= PortalAnimSpeed) size = (pEntity.GetLifeTime()+pPartialTicks)/PortalAnimSpeed;
+        else if(pEntity.getRemainingTime() <= PortalAnimSpeed) size = Math.max((pEntity.getRemainingTime()-pPartialTicks)/PortalAnimSpeed, 0);
 
         Quaternionf rotation = new Quaternionf();
         //order: D-U-N-S-W-E
         if(pEntity.get3dDirection().get3DDataValue() <= 0){
             rotation.rotateX((float)(Math.PI*3)/2f);
-            pPoseStack.scale(1 * size,1, 0.5f * size);
-            pPoseStack.translate(0,0.5f, 0.50f);
+            pPoseStack.scale(1 * size,1 * size, 0.5f * size);
+            pPoseStack.translate(0,1f, 0.50f); // x 0.5f z
         } else if (pEntity.get3dDirection().get3DDataValue() == 1) {
             rotation.rotateX((float)Math.PI/2);
             pPoseStack.scale(1 * size,1, 0.5f * size);
-            pPoseStack.translate(0,0.5f, -0.50f);
+            pPoseStack.translate(0,1f, -0.50f);
 
         }else{
             pPoseStack.translate(0,0.5f + (0.5 - size/2), 0);

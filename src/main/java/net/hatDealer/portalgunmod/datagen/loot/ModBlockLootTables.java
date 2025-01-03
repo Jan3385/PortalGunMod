@@ -15,7 +15,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-        this.dropSelf(ModBlocks.WHITEST_BLOCK.get());
+        //this.dropSelf(ModBlocks.WHITEST_BLOCK.get());
 
         //this.add(ModBlocks.doesntDropItself.get(),
         //        block -> createRedstoneOreDrops(ModBlocks.doesntDropItself.get(), ModItems.drop.get()));

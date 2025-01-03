@@ -7,9 +7,9 @@
   "item.portalgunmod.portalprojectileitem": "Portal Fluid capsule",
   "item.portalgunmod.portalgun": "Portal Gun",
 
-  "screen.portalgunmod.title" : "Portal Teleportation Vector",
-  "screen.portalgunmod.message" : "Yapping alert!!",
-  "screen.portalgunmod.portalLife" : "Exist for Seconds: ",
-  "screen.portalgunmod.disappearsAfterUse": "One use only",
-  "screen.portalgunmod.doesntDisappearAfterUse": "Multiple uses"
+  "screen.portal.title" : "Portal Teleportation Vector",
+  "screen.portal.message" : "Yapping alert!!",
+  "screen.portal.portalLife" : "Exist for Seconds: ",
+  "screen.portal.disappearsAfterUse": "One use only",
+  "screen.portal.doesntDisappearAfterUse": "Multiple uses"
 }

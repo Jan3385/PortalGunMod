@@ -21,13 +21,6 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, PortalGunMod.MODID);
 
-    public static final RegistryObject<Block> WHITEST_BLOCK = registerBlock("whitest_block",
-            () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.GLOWSTONE)
-                    .lightLevel(value -> 15)
-                    .sound(SoundType.SHROOMLIGHT)
-                    .strength(6f),
-                    UniformInt.of(1, 8)));
-
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block){
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
         registryObjectItem(name, toReturn);

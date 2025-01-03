@@ -4,10 +4,15 @@ import net.hatDealer.portalgunmod.entity.ModEntities;
 import net.hatDealer.portalgunmod.util.TeleportLogic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -29,7 +34,8 @@ public class PortalEntity extends Entity{
     private static final EntityDataAccessor<Float> SIZE = SynchedEntityData.defineId(PortalEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Integer> lifeTimeLength = SynchedEntityData.defineId(PortalEntity.class, EntityDataSerializers.INT);
     private int lifeTime;
-    private int portalIndex;
+    private String DestinationDimKey;
+    private Vec3 DestinationPos;
     private boolean disappearAfterUse;
     private boolean canTeleport;
     public PortalEntity(EntityType<? extends Entity> pEntityType, Level pLevel) {
@@ -51,7 +57,8 @@ public class PortalEntity extends Entity{
             this.setPos(pData.pos);
             this.setLifeTimeLength(pData.lifeTimeLength);
             this.setDirection(pData.dir);
-            this.portalIndex = pData.DestinationIndex;
+            this.DestinationDimKey = pData.DestinationDimKey;
+            this.DestinationPos = pData.DestinationPos;
             this.disappearAfterUse = pData.disappearAfterUse;
 
             this.entityData.set(INITIALISED, true);
@@ -66,7 +73,8 @@ public class PortalEntity extends Entity{
             this.setPos(pData.pos);
             this.setLifeTimeLength(pData.lifeTimeLength);
             this.setYRotAndDir(yRot);
-            this.portalIndex = pData.DestinationIndex;
+            this.DestinationDimKey = pData.DestinationDimKey;
+            this.DestinationPos = pData.DestinationPos;
             this.disappearAfterUse = pData.disappearAfterUse;
 
             this.entityData.set(INITIALISED, true);
@@ -82,7 +90,9 @@ public class PortalEntity extends Entity{
             this.setLifeTimeLength(40);
             //this.setPos(this.position().add(new Vec3(this.getDirection().getOpposite().step().div(4,1,4))));
 
-            this.portalIndex = -1;
+            this.DestinationDimKey = this.level().dimension().toString();
+            this.DestinationPos = this.position();
+
             this.disappearAfterUse = true;
 
             this.entityData.set(INITIALISED, true);
@@ -102,17 +112,23 @@ public class PortalEntity extends Entity{
     public void tick() {
         //Mby remove super.tick()?
         super.tick();
-            this.checkBelowWorld();
-            if(!this.level().isClientSide) {
-                if (this.lifeTime == this.getLifeTimeLength()) {
-                    despawnPortal();
-                }
-                checkCollisions();
-                System.out.println("server pos " + position());
-            }else {
-                System.out.println("client pos " + position());
+        this.checkBelowWorld();
+        //client particles
+        if(!this.level().isClientSide) {
+            if (this.lifeTime == this.getLifeTimeLength()) {
+                despawnPortal();
             }
+            checkCollisions();
+        }
+        if(this.level().isClientSide){
+            if(random.nextInt(5) == 1)
+                this.level().addParticle(ParticleTypes.REVERSE_PORTAL, this.getX() + (random.nextFloat()*2) - 1, this.getY() + (random.nextFloat()*4) - 2, this.getZ() + (random.nextFloat()*2) - 1,
+                        (random.nextFloat()*.4) - .2, (random.nextFloat()*.4) - .2, (random.nextFloat()*.4) - .2);
+        }
         this.lifeTime++;
+    }
+    public float GetLifeTime(){
+        return this.lifeTime;
     }
     public float getRemainingTime(){
         return this.getLifeTimeLength()-this.lifeTime;
@@ -191,7 +207,13 @@ public class PortalEntity extends Entity{
         this.entityData.set(INITIALISED, pCompound.getBoolean("INITIALISED"));
         this.entityData.set(SIZE, pCompound.getFloat("SIZE"));
 
-        this.portalIndex = pCompound.getInt("portalIndex");
+        this.DestinationDimKey = pCompound.getString("DestinationDimKey");
+
+        double x = pCompound.getDouble("DestinationPosX");
+        double y = pCompound.getDouble("DestinationPosY");
+        double z = pCompound.getDouble("DestinationPosZ");
+        this.DestinationPos = new Vec3(x,y,z);
+
         this.lifeTime = pCompound.getInt("lifeTime");
         this.setLifeTimeLength(pCompound.getInt("lifeTimeLength"));
         this.canTeleport = pCompound.getBoolean("canTeleport");
@@ -208,10 +230,13 @@ public class PortalEntity extends Entity{
         pCompound.putBoolean("INITIALISED", this.getEntityData().get(INITIALISED));
         pCompound.putFloat("SIZE", this.getEntityData().get(SIZE));
 
-        pCompound.putInt("portalIndex", this.portalIndex);
+        pCompound.putString("DestinationDimKey", this.DestinationDimKey);
+        pCompound.putDouble("DestinationPosX", this.DestinationPos.x);
+        pCompound.putDouble("DestinationPosY", this.DestinationPos.y);
+        pCompound.putDouble("DestinationPosZ", this.DestinationPos.z);
+
         pCompound.putInt("lifeTime", this.lifeTime);
         pCompound.putInt("lifeTimeLength", this.getLifeTimeLength());
-        pCompound.putInt("portalIndex", this.portalIndex);
         pCompound.putBoolean("canTeleport", this.canTeleport);
         pCompound.putBoolean("disappearAfterUse", this.disappearAfterUse);
     }
@@ -242,11 +267,11 @@ public class PortalEntity extends Entity{
             List<Entity> collisionList = this.level().getEntities(this, this.getBoundingBox(), EntitySelector.LIVING_ENTITY_STILL_ALIVE);
 
             MinecraftServer server = this.getServer();
-            ServerLevel dim;
 
             assert server != null;
 
-            dim = server.getLevel(this.level().dimension());
+            ResourceKey<Level> dimensionKey = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(this.DestinationDimKey));
+            ServerLevel dim = server.getLevel(dimensionKey);
 
             for (Entity entity : collisionList) {
                 //do not teleport portalEntity or projectiles
@@ -254,10 +279,15 @@ public class PortalEntity extends Entity{
                 //do not teleport non-teleportable entities
                 if(!entity.canChangeDimensions()) continue;
 
+                if(dim == null){
+                    this.despawnPortal();
+                    return;
+                }
+
                 //get pos with translation
                 Vec3 pos = this.position();
 
-                BlockPos teleportPos = new BlockPos((int) pos.x, (int) pos.y, (int) pos.z);
+                BlockPos teleportPos = new BlockPos((int) this.DestinationPos.x, (int) this.DestinationPos.y, (int) this.DestinationPos.z);
 
                 //find a nice teleport position
                 teleportPos = TeleportLogic.FindViablePositionFor(dim, teleportPos);

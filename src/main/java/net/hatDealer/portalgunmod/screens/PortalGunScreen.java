@@ -28,7 +28,6 @@ public class PortalGunScreen extends Screen {
     {
         super(pTitle);
         this.PhysicalPortalGun = PortalGun;
-        this.PortalVector = PortalIndexToVec3i(PortalgunItem.getPortalIndex(PhysicalPortalGun));
         this.DisappearsAfterUse = PortalgunItem.getPortalDisappear(PhysicalPortalGun);
     }
 

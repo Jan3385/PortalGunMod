@@ -15,7 +15,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        blockWithItem(ModBlocks.WHITEST_BLOCK);
+        //blockWithItem(ModBlocks.WHITEST_BLOCK);
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject){

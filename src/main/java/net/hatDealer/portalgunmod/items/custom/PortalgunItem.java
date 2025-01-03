@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
@@ -25,27 +26,19 @@ public abstract class PortalgunItem extends ProjectileWeaponItem {
     public static final Predicate<ItemStack> PORTAL_ONLY = (itemStack) -> {
         return itemStack.is(ModTags.Items.PORTAL_AMMO);
     };
-
-    public static int getPortalIndex(ItemStack pPortalGun) {
-        CompoundTag compoundtag = pPortalGun.getOrCreateTag();
-        return compoundtag.getInt("index");
-    }
     public static int getPortalLifetime(ItemStack pPortalGun) {
-        CompoundTag compoundtag = pPortalGun.getOrCreateTag();
-        compoundtag.putInt("pLife", 100); //TODO: temp
-        return 100;
+        return 160;
     }
     public static boolean getPortalDisappear(ItemStack pPortalGun) {
-        CompoundTag compoundtag = pPortalGun.getOrCreateTag();
-        return compoundtag.getBoolean("pDisappear");
+        return true;
     }
     public static float getChargeLevel(ItemStack pStack, LivingEntity pEntity, int speed){
         //portal shows empty if being held by a mob
-        if(!(pEntity instanceof Player p)){
+        if(!(pEntity instanceof Player player)){
             return 0;
         }
 
-        boolean hasAmmo = !p.getProjectile(ModItems.PortalGun.get().getDefaultInstance()).isEmpty();
+        boolean hasAmmo = !player.getProjectile(ModItems.PortalGun.get().getDefaultInstance()).isEmpty();
 
         if (hasAmmo) return 1f;
         else return 0f;
@@ -89,7 +82,7 @@ public abstract class PortalgunItem extends ProjectileWeaponItem {
                 PortalProjectileItem arrowitem = (PortalProjectileItem)
                         (itemstack.getItem() instanceof PortalProjectileItem ? itemstack.getItem() : ModItems.PortalProjectileItem.get());
                 PortalProjectileEntity abstractarrow = arrowitem.createArrow(pLevel, itemstack,
-                        pPlayer, getPortalIndex(pStack), getPortalLifetime(pStack), getPortalDisappear(pStack));
+                        pPlayer, "minecraft:overworld",new Vec3(150, 150, 150), getPortalLifetime(pStack), getPortalDisappear(pStack));
                 abstractarrow = customArrow(abstractarrow);
 
                 abstractarrow.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 3.0F, 0.0F);

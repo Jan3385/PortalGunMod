@@ -6,6 +6,11 @@
   "block.portalgunmod.whitest_block" : "Whitest Block",
   "item.portalgunmod.portalprojectileitem": "Portal Fluid capsule",
   "item.portalgunmod.portalgun": "Portal Gun",
+  "item.portalgunmod.unstable_portal_potion":  "Unstable Portal Liquid",
+  "item.portalgunmod.stabilized_portal_potion":  "Stabilized Portal Liquid",
+
+  "tooltip.stable.potion": "Can be safely thrown",
+  "tooltip.unstable.potion": "Can cause unexpected results when thrown!",
 
   "screen.portal.title" : "Portal Teleportation Vector",
   "screen.portal.message" : "Yapping alert!!",

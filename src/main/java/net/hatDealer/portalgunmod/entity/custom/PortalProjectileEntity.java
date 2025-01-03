@@ -5,6 +5,7 @@ import net.hatDealer.portalgunmod.items.ModItems;
 import net.hatDealer.portalgunmod.util.TeleportLogic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.commands.SetBlockCommand;
@@ -29,7 +30,7 @@ public class PortalProjectileEntity extends AbstractArrow {
     private int portalWidth = 1;
     private int portalTime = 200;
     private String DestinationDimKey = "minecraft:overworld";
-    private Vec3 DestinationPos = new Vec3(150,150,150);
+    private Vec3i DestinationPos = new Vec3i(150,150,150);
     private int ProjectileLifeLength = 200;
     private boolean disappearAfterUse = false;
     Vec3 SpawnPos;
@@ -41,7 +42,7 @@ public class PortalProjectileEntity extends AbstractArrow {
     public PortalProjectileEntity(double x, double y, double z, Level pLevel){
         super(ModEntities.PORTAL_PROJECTILE.get(), x, y, z, pLevel);
     }
-    public PortalProjectileEntity(LivingEntity shooter, Level pLevel, String DestinationDimKey, Vec3 DestinationPos, int portalTime, boolean disappearAfterUse){
+    public PortalProjectileEntity(LivingEntity shooter, Level pLevel, String DestinationDimKey, Vec3i DestinationPos, int portalTime, boolean disappearAfterUse){
         super(ModEntities.PORTAL_PROJECTILE.get(), shooter, pLevel);
         this.DestinationDimKey = DestinationDimKey;
         this.DestinationPos = DestinationPos;
@@ -158,10 +159,10 @@ public class PortalProjectileEntity extends AbstractArrow {
         this.portalTime = pCompound.getInt("portalTime");
         this.DestinationDimKey =pCompound.getString("DestinationDimKey");
 
-        double x = pCompound.getDouble("DestinationPosX");
-        double y = pCompound.getDouble("DestinationPosY");
-        double z = pCompound.getDouble("DestinationPosZ");
-        this.DestinationPos = new Vec3(x,y,z);
+        int x = pCompound.getInt("DestinationPosX");
+        int y = pCompound.getInt("DestinationPosY");
+        int z = pCompound.getInt("DestinationPosZ");
+        this.DestinationPos = new Vec3i(x,y,z);
 
         this.ProjectileLifeLength =pCompound.getInt("portalLife");
         this.disappearAfterUse = pCompound.getBoolean("pDisappear");
@@ -174,9 +175,9 @@ public class PortalProjectileEntity extends AbstractArrow {
         pCompound.putInt("portalWidth", this.portalWidth);
         pCompound.putInt("portalTime", this.portalTime);
         pCompound.putString("DestinationDimKey", this.DestinationDimKey);
-        pCompound.putDouble("DestinationPosX", this.DestinationPos.x);
-        pCompound.putDouble("DestinationPosY", this.DestinationPos.y);
-        pCompound.putDouble("DestinationPosZ", this.DestinationPos.z);
+        pCompound.putInt("DestinationPosX", this.DestinationPos.getX());
+        pCompound.putInt("DestinationPosY", this.DestinationPos.getY());
+        pCompound.putInt("DestinationPosZ", this.DestinationPos.getZ());
 
         pCompound.putInt("portalLife", this.ProjectileLifeLength);
         pCompound.putBoolean("pDisappear", this.disappearAfterUse);

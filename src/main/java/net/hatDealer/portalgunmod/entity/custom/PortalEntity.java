@@ -5,6 +5,7 @@ import net.hatDealer.portalgunmod.util.TeleportLogic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -35,7 +36,7 @@ public class PortalEntity extends Entity{
     private static final EntityDataAccessor<Integer> lifeTimeLength = SynchedEntityData.defineId(PortalEntity.class, EntityDataSerializers.INT);
     private int lifeTime;
     private String DestinationDimKey;
-    private Vec3 DestinationPos;
+    private Vec3i DestinationPos;
     private boolean disappearAfterUse;
     private boolean canTeleport;
     public PortalEntity(EntityType<? extends Entity> pEntityType, Level pLevel) {
@@ -91,7 +92,7 @@ public class PortalEntity extends Entity{
             //this.setPos(this.position().add(new Vec3(this.getDirection().getOpposite().step().div(4,1,4))));
 
             this.DestinationDimKey = this.level().dimension().toString();
-            this.DestinationPos = this.position();
+            this.DestinationPos = new Vec3i((int)this.position().x, (int)this.position().y, (int)this.position().z);
 
             this.disappearAfterUse = true;
 
@@ -209,10 +210,10 @@ public class PortalEntity extends Entity{
 
         this.DestinationDimKey = pCompound.getString("DestinationDimKey");
 
-        double x = pCompound.getDouble("DestinationPosX");
-        double y = pCompound.getDouble("DestinationPosY");
-        double z = pCompound.getDouble("DestinationPosZ");
-        this.DestinationPos = new Vec3(x,y,z);
+        int x = pCompound.getInt("DestinationPosX");
+        int y = pCompound.getInt("DestinationPosY");
+        int z = pCompound.getInt("DestinationPosZ");
+        this.DestinationPos = new Vec3i(x,y,z);
 
         this.lifeTime = pCompound.getInt("lifeTime");
         this.setLifeTimeLength(pCompound.getInt("lifeTimeLength"));
@@ -231,9 +232,9 @@ public class PortalEntity extends Entity{
         pCompound.putFloat("SIZE", this.getEntityData().get(SIZE));
 
         pCompound.putString("DestinationDimKey", this.DestinationDimKey);
-        pCompound.putDouble("DestinationPosX", this.DestinationPos.x);
-        pCompound.putDouble("DestinationPosY", this.DestinationPos.y);
-        pCompound.putDouble("DestinationPosZ", this.DestinationPos.z);
+        pCompound.putInt("DestinationPosX", this.DestinationPos.getX());
+        pCompound.putInt("DestinationPosY", this.DestinationPos.getY());
+        pCompound.putInt("DestinationPosZ", this.DestinationPos.getZ());
 
         pCompound.putInt("lifeTime", this.lifeTime);
         pCompound.putInt("lifeTimeLength", this.getLifeTimeLength());
@@ -287,7 +288,7 @@ public class PortalEntity extends Entity{
                 //get pos with translation
                 Vec3 pos = this.position();
 
-                BlockPos teleportPos = new BlockPos((int) this.DestinationPos.x, (int) this.DestinationPos.y, (int) this.DestinationPos.z);
+                BlockPos teleportPos = new BlockPos(this.DestinationPos);
 
                 //find a nice teleport position
                 teleportPos = TeleportLogic.FindViablePositionFor(dim, teleportPos);

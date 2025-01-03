@@ -1,6 +1,7 @@
 package net.hatDealer.portalgunmod.datagen;
 
 import net.hatDealer.portalgunmod.PortalGunMod;
+import net.hatDealer.portalgunmod.items.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -39,6 +40,8 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         //simpleItem(ModItems.PortalGun);
         //simpleItem(ModItems.PortalProjectileItem);
+        simpleItem(ModItems.UnstablePortalPotion);
+        simpleItem(ModItems.StabilizedPortalPotion);
     }
     private ItemModelBuilder simpleItem(RegistryObject<Item> item){
         return withExistingParent(item.getId().getPath(),

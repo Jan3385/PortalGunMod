@@ -3,11 +3,14 @@ package net.hatDealer.portalgunmod.items.custom;
 import net.hatDealer.portalgunmod.entity.custom.PortalProjectileEntity;
 import net.hatDealer.portalgunmod.items.ModItems;
 import net.hatDealer.portalgunmod.util.ModTags;
+import net.hatDealer.portalgunmod.util.PortalGunNBTReader;
+import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -31,6 +34,9 @@ public abstract class PortalgunItem extends ProjectileWeaponItem {
     }
     public static boolean getPortalDisappear(ItemStack pPortalGun) {
         return true;
+    }
+    public int getDefaultProjectileRange() {
+        return 40;
     }
     public static float getChargeLevel(ItemStack pStack, LivingEntity pEntity, int speed){
         //portal shows empty if being held by a mob
@@ -63,31 +69,41 @@ public abstract class PortalgunItem extends ProjectileWeaponItem {
         return UseAnim.BOW;
     }
 
+    @Override
+    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+        super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
+    }
     /**
      * Called to trigger the item's "innate" right click behavior. To handle when this item is used on a Block, see
      */
     public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
-        ItemStack pStack = pPlayer.getItemInHand(pHand);
+        ItemStack PortalGun = pPlayer.getItemInHand(pHand);
         boolean infinite_ammo = pPlayer.getAbilities().instabuild;
-        ItemStack itemstack = pPlayer.getProjectile(pStack);
+        ItemStack itemstack = pPlayer.getProjectile(PortalGun);
 
         if (!itemstack.isEmpty() || infinite_ammo) {
             //generate portal ammo if using infinite ammo
             if (itemstack.isEmpty()) {
                 itemstack = new ItemStack(ModItems.PortalProjectileItem.get());
             }
-
             //on server, create and launch projectile
             if (!pLevel.isClientSide) {
+                CompoundTag PortalGunNBT = PortalGun.getOrCreateTag();
+
+                Vec3i PortalPos = PortalGunNBTReader.GetPosFromPortalGunNBT(PortalGunNBT, pPlayer.position());
+                String PortalDimKey = PortalGunNBTReader.GetDimKeyDromPortalGunNBT(PortalGunNBT);
+
                 PortalProjectileItem arrowitem = (PortalProjectileItem)
                         (itemstack.getItem() instanceof PortalProjectileItem ? itemstack.getItem() : ModItems.PortalProjectileItem.get());
                 PortalProjectileEntity abstractarrow = arrowitem.createArrow(pLevel, itemstack,
-                        pPlayer, "minecraft:overworld",new Vec3(150, 150, 150), getPortalLifetime(pStack), getPortalDisappear(pStack));
+                        pPlayer, PortalDimKey, PortalPos, getPortalLifetime(PortalGun), getPortalDisappear(PortalGun));
                 abstractarrow = customArrow(abstractarrow);
 
                 abstractarrow.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 3.0F, 0.0F);
 
                 pLevel.addFreshEntity(abstractarrow);
+
+                pPlayer.getCooldowns().addCooldown(this, 20);
 
             }
 
@@ -122,9 +138,5 @@ public abstract class PortalgunItem extends ProjectileWeaponItem {
 
     public PortalProjectileEntity customArrow(PortalProjectileEntity arrow) {
         return arrow;
-    }
-
-    public int getDefaultProjectileRange() {
-        return 40;
     }
 }

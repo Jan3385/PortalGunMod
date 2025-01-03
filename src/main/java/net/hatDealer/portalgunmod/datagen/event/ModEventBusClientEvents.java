@@ -5,6 +5,7 @@ import net.hatDealer.portalgunmod.entity.ModEntities;
 import net.hatDealer.portalgunmod.entity.client.*;
 import net.hatDealer.portalgunmod.items.ModItems;
 import net.hatDealer.portalgunmod.items.custom.PortalgunItem;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -25,6 +26,8 @@ public class ModEventBusClientEvents {
     public static void onClientSetup(FMLClientSetupEvent event)
     {
         EntityRenderers.register(ModEntities.PORTAL_PROJECTILE.get(), PortalProjectileRenderer::new);
+        EntityRenderers.register(ModEntities.UNSTABLE_PORTAL_PROJECTILE.get(), UnstablePortalLiquidRender::new);
+        EntityRenderers.register(ModEntities.STABLE_PORTAL_PROJECTILE.get(), StabilizedPortalLiquidRenderer::new);
         EntityRenderers.register(ModEntities.PORTAL_ENTITY.get(), PortalRenderer::new);
     }
     @SubscribeEvent

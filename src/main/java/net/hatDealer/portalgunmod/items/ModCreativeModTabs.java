@@ -16,11 +16,13 @@ public class ModCreativeModTabs {
     public static final RegistryObject<CreativeModeTab> OtherWorlds_TAB = CREATIVE_MODE_TABS.register("otherworlds_tab",
             ()-> CreativeModeTab.builder()
                     .icon(()->new ItemStack(ModItems.PortalGun.get()))
-                    .title(Component.translatable("creativetab.otherworlds_tab"))
+                    .title(Component.translatable("creativetab.portalgunmod_tab"))
                     .displayItems((pParameters, pOutput) -> {
                         //add items to creative tab
                         pOutput.accept(ModItems.PortalGun.get());
                         pOutput.accept(ModItems.PortalProjectileItem.get());
+                        pOutput.accept(ModItems.UnstablePortalPotion.get());
+                        pOutput.accept(ModItems.StabilizedPortalPotion.get());
 
                     })
                     .build());

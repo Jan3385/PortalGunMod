@@ -5,7 +5,11 @@ import net.hatDealer.portalgunmod.items.ModItems;
 import net.hatDealer.portalgunmod.util.ModTags;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
@@ -13,6 +17,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 
 import java.util.List;
@@ -28,11 +33,11 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.PortalGun.get())
                 .pattern(" # ")
-                .pattern("nNQ")
-                .pattern("n L")
-                .define('#', ModTags.Items.FROGLIGHT)
-                .define('n', Items.NETHERITE_INGOT)
-                .define('N', Items.NETHER_STAR)
+                .pattern("bNQ")
+                .pattern("b L")
+                .define('#', ModItems.StabilizedPortalPotion.get())
+                .define('b', Items.WARPED_BUTTON)
+                .define('N', Items.NETHERITE_INGOT)
                 .define('Q', Blocks.QUARTZ_BLOCK)
                 .define('L', Blocks.LIGHTNING_ROD)
                 .unlockedBy(getHasName(Items.NETHER_STAR), has(Items.NETHER_STAR))

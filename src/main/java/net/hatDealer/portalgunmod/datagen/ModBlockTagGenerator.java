@@ -18,7 +18,7 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
-        this.tag(ModTags.Blocks.GENERATION_TOP_LAYER)
+        /*this.tag(ModTags.Blocks.GENERATION_TOP_LAYER)
                 .addTags(Tags.Blocks.GRAVEL)
                 .addTags(Tags.Blocks.ORES)
                 .addTags(Tags.Blocks.SAND)
@@ -31,6 +31,6 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
                 .addTags(Tags.Blocks.SANDSTONE)
                 .addTags(Tags.Blocks.ENDERMAN_PLACE_ON_BLACKLIST)
                 .addTags(Tags.Blocks.OBSIDIAN)
-                .addTags(Tags.Blocks.NETHERRACK);
+                .addTags(Tags.Blocks.NETHERRACK);*/
     }
 }

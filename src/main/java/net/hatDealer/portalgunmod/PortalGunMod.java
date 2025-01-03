@@ -2,10 +2,12 @@ package net.hatDealer.portalgunmod;
 
 import com.mojang.logging.LogUtils;
 import net.hatDealer.portalgunmod.blocks.ModBlocks;
+import net.hatDealer.portalgunmod.datagen.ModBrewingRecipes;
 import net.hatDealer.portalgunmod.datagen.worldgen.ModFeatureRegistry;
 import net.hatDealer.portalgunmod.entity.ModEntities;
 import net.hatDealer.portalgunmod.items.ModCreativeModTabs;
 import net.hatDealer.portalgunmod.items.ModItems;
+import net.hatDealer.portalgunmod.networking.ModNetworking;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -52,6 +54,10 @@ public class PortalGunMod
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
+
+        modEventBus.addListener(ModBrewingRecipes::onCommonSetup);
+
+        ModNetworking.register();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "portalgunmod:item/stabilized_portal_potion"
+  }
+}

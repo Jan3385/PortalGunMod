@@ -16,13 +16,18 @@ public class ModBrewingRecipes {
     public static void onCommonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             BrewingRecipeRegistry.addRecipe(
-                    Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)),
+                    Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.THICK)),
+                    Ingredient.of(Items.CHORUS_FRUIT),
+                    ModItems.PrecursorPortalPotion.get().getDefaultInstance());
+
+            BrewingRecipeRegistry.addRecipe(
+                    Ingredient.of(ModItems.PrecursorPortalPotion.get().getDefaultInstance()),
                     Ingredient.of(Items.ENDER_PEARL),
                     ModItems.UnstablePortalPotion.get().getDefaultInstance());
 
-            BrewingRecipeRegistry.addRecipe( //TODO: make reciep for portal fluid precursor to use as ingredient instead of unstable portal
-                    Ingredient.of(ModItems.UnstablePortalPotion.get().getDefaultInstance()),
-                    Ingredient.of(Items.CHORUS_FRUIT),
+            BrewingRecipeRegistry.addRecipe(
+                    Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.MUNDANE)),
+                    Ingredient.of(Items.ENDER_CHEST),
                     ModItems.UnstablePortalPotion.get().getDefaultInstance());
 
             BrewingRecipeRegistry.addRecipe(

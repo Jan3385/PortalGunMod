@@ -79,7 +79,7 @@ public class StablePortalLiquidProjectile extends ThrowableItemProjectile {
                     this.getMotionDirection(),
                     this.getYRot(),
                     this.getOwner(),
-                    500
+                    1500
             );
         }
     }
@@ -101,7 +101,7 @@ public class StablePortalLiquidProjectile extends ThrowableItemProjectile {
                     this.getMotionDirection(),
                     this.getYRot(),
                     this.getOwner(),
-                    500
+                    1500
             );
         }
     }

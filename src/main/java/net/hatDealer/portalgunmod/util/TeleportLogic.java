@@ -69,7 +69,6 @@ public class TeleportLogic {
             Random random = new Random();
             int randomResult = random.nextInt(0, 10);
 
-            System.out.println(randomResult);
             switch (randomResult){
                 case 0: // random portal
                     String DimToken = TeleportLogic.GetRandomVanillaDimToken();
@@ -80,7 +79,7 @@ public class TeleportLogic {
                             pDirection,
                             yRot,
                             entity,
-                            1200
+                            8000
                     );
                     break;
                 case 1: // explosion

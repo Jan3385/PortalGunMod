@@ -1,7 +1,10 @@
 package net.hatDealer.portalgunmod.items.custom;
 
 import net.hatDealer.portalgunmod.entity.custom.PortalProjectileEntity;
+import net.hatDealer.portalgunmod.entity.custom.PortalProjectileUnstableEntity;
 import net.hatDealer.portalgunmod.items.ModItems;
+import net.hatDealer.portalgunmod.items.custom.PortalProjectiles.PortalProjectileItem;
+import net.hatDealer.portalgunmod.items.custom.PortalProjectiles.PortalProjectileItemUnstable;
 import net.hatDealer.portalgunmod.util.ModTags;
 import net.hatDealer.portalgunmod.util.PortalGunNBTReader;
 import net.minecraft.core.Vec3i;
@@ -13,11 +16,9 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ProjectileWeaponItem;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
@@ -44,10 +45,13 @@ public abstract class PortalgunItem extends ProjectileWeaponItem {
             return 0;
         }
 
-        boolean hasAmmo = !player.getProjectile(ModItems.PortalGun.get().getDefaultInstance()).isEmpty();
+        ItemStack ammo = getPortalGunProjectile(pStack, player);
 
-        if (hasAmmo) return 1f;
-        else return 0f;
+        if(ammo.isEmpty()) return 0;
+        if(ammo.getItem() == ModItems.PortalProjectileItem.get()) return 1;
+        if(ammo.getItem() == ModItems.PortalProjectileUnstableItem.get()) return 2;
+
+        return 0;
     }
     /**
      * Called when the player stops using an Item (stops holding the right mouse button).
@@ -79,7 +83,8 @@ public abstract class PortalgunItem extends ProjectileWeaponItem {
     public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
         ItemStack PortalGun = pPlayer.getItemInHand(pHand);
         boolean infinite_ammo = pPlayer.getAbilities().instabuild;
-        ItemStack itemstack = pPlayer.getProjectile(PortalGun);
+
+        ItemStack itemstack = PortalgunItem.getPortalGunProjectile(PortalGun, pPlayer);
 
         if (!itemstack.isEmpty() || infinite_ammo) {
             //generate portal ammo if using infinite ammo
@@ -93,15 +98,21 @@ public abstract class PortalgunItem extends ProjectileWeaponItem {
                 Vec3i PortalPos = PortalGunNBTReader.GetPosFromPortalGunNBT(PortalGunNBT, pPlayer.position());
                 String PortalDimKey = PortalGunNBTReader.GetDimKeyDromPortalGunNBT(PortalGunNBT);
 
-                PortalProjectileItem arrowitem = (PortalProjectileItem)
-                        (itemstack.getItem() instanceof PortalProjectileItem ? itemstack.getItem() : ModItems.PortalProjectileItem.get());
-                PortalProjectileEntity abstractarrow = arrowitem.createArrow(pLevel, itemstack,
-                        pPlayer, PortalDimKey, PortalPos, getPortalLifetime(PortalGun), getPortalDisappear(PortalGun));
-                abstractarrow = customArrow(abstractarrow);
+                ArrowItem arrowitem = (ArrowItem) (itemstack.getItem());
 
-                abstractarrow.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 3.0F, 0.0F);
+                AbstractArrow abstractArrow;
+                if(arrowitem instanceof PortalProjectileItem p){
+                    abstractArrow = p.createArrow(pLevel, itemstack,
+                            pPlayer, PortalDimKey, PortalPos, getPortalLifetime(PortalGun), getPortalDisappear(PortalGun));
+                }else{
+                    assert (arrowitem instanceof PortalProjectileItemUnstable);
 
-                pLevel.addFreshEntity(abstractarrow);
+                    abstractArrow = ((PortalProjectileItemUnstable)arrowitem).createArrow(pLevel, itemstack, pPlayer);
+                }
+
+                abstractArrow.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 3.0F, 0.0F);
+
+                pLevel.addFreshEntity(abstractArrow);
 
                 pPlayer.getCooldowns().addCooldown(this, 20);
 
@@ -135,8 +146,38 @@ public abstract class PortalgunItem extends ProjectileWeaponItem {
     public @NotNull Predicate<ItemStack> getAllSupportedProjectiles() {
         return PORTAL_ONLY;
     }
+    public static ItemStack getPortalGunProjectile(ItemStack pShootable, Player pPlayer){
+        if (!(pShootable.getItem() instanceof PortalgunItem)) {
+            return ItemStack.EMPTY;
+        } else {
+            CompoundTag PortalGunNBT = pShootable.getOrCreateTag();
+            boolean preferStableAmmo = PortalGunNBT.contains("stableAmmo") ? PortalGunNBT.getBoolean("stableAmmo") : true;
+            Item PreferredAmmo = preferStableAmmo ? ModItems.PortalProjectileItem.get() : ModItems.PortalProjectileUnstableItem.get();
 
-    public PortalProjectileEntity customArrow(PortalProjectileEntity arrow) {
-        return arrow;
+            Predicate<ItemStack> predicate = ((ProjectileWeaponItem)pShootable.getItem()).getSupportedHeldProjectiles();
+            ItemStack itemstack = ProjectileWeaponItem.getHeldProjectile(pPlayer, predicate);
+
+            if (!itemstack.isEmpty()) {
+                return net.minecraftforge.common.ForgeHooks.getProjectile(pPlayer, pShootable, itemstack);
+            } else {
+                predicate = ((ProjectileWeaponItem)pShootable.getItem()).getAllSupportedProjectiles();
+
+                for(int i = 0; i < pPlayer.getInventory().getContainerSize(); ++i) {
+                    ItemStack itemstack1 = pPlayer.getInventory().getItem(i);
+                    if (PreferredAmmo == itemstack1.getItem()) {
+                        return net.minecraftforge.common.ForgeHooks.getProjectile(pPlayer, pShootable, itemstack1);
+                    }
+                }
+
+                for(int i = 0; i < pPlayer.getInventory().getContainerSize(); ++i) {
+                    ItemStack itemstack1 = pPlayer.getInventory().getItem(i);
+                    if (predicate.test(itemstack1)) {
+                        return net.minecraftforge.common.ForgeHooks.getProjectile(pPlayer, pShootable, itemstack1);
+                    }
+                }
+
+                return net.minecraftforge.common.ForgeHooks.getProjectile(pPlayer, pShootable, pPlayer.getAbilities().instabuild ? new ItemStack(ModItems.PortalProjectileItem.get()) : ItemStack.EMPTY);
+            }
+        }
     }
 }

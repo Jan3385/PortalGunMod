@@ -12,6 +12,12 @@
         "charged": 1
       },
       "model": "portalgunmod:item/portalgun_3d"
+    },
+    {
+      "predicate": {
+        "charged": 2
+      },
+      "model": "portalgunmod:item/portalgununstable_3d"
     }
   ]
 }

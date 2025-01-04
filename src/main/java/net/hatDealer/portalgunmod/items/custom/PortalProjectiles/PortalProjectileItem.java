@@ -1,4 +1,4 @@
-package net.hatDealer.portalgunmod.items.custom;
+package net.hatDealer.portalgunmod.items.custom.PortalProjectiles;
 
 import net.hatDealer.portalgunmod.entity.custom.PortalProjectileEntity;
 import net.minecraft.core.Vec3i;

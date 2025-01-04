@@ -95,7 +95,7 @@ public class UnstablePortalLiquidProjectile extends ThrowableItemProjectile {
                     SoundSource.NEUTRAL, 1F, random.nextFloat() * 0.1F + 0.9F);
             this.level().playSound((Player)null,
                     pResult.getLocation().x, pResult.getLocation().y, pResult.getLocation().z, SoundEvents.WARDEN_ATTACK_IMPACT,
-                    SoundSource.NEUTRAL, 1.2F, random.nextFloat() * 0.1F + 0.3F);
+                    SoundSource.NEUTRAL, 3F, random.nextFloat() * 0.1F + 0.3F);
 
             TeleportLogic.ChaoticExplosion(
                     this.position(),

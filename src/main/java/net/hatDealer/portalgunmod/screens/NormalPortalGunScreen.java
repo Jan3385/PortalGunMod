@@ -1,6 +1,7 @@
 package net.hatDealer.portalgunmod.screens;
 
 import net.hatDealer.portalgunmod.PortalGunMod;
+import net.hatDealer.portalgunmod.items.ModItems;
 import net.hatDealer.portalgunmod.items.custom.PortalgunItem;
 import net.hatDealer.portalgunmod.networking.ItemNBTUpdatePacket;
 import net.hatDealer.portalgunmod.networking.ModNetworking;
@@ -18,6 +19,7 @@ import net.minecraft.network.chat.contents.LiteralContents;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -33,12 +35,17 @@ public class NormalPortalGunScreen extends Screen {
     private final static ResourceLocation SaveIcon = new ResourceLocation(PortalGunMod.MODID,"textures/gui/save.png");
     private final static ResourceLocation SelectIcon = new ResourceLocation(PortalGunMod.MODID,"textures/gui/select.png");
     private final static ResourceLocation CoordsBackground = new ResourceLocation("textures/gui/slider.png");
+    private final static ResourceLocation NineSlice = new ResourceLocation(PortalGunMod.MODID,"textures/gui/nineslice.png");
     //private final static int HighlightColor = Color.HSBtoRGB(46, 34.5f, 20);
     private final static int HighlightColor = 0xB0EAA700; //TODO: different color
     private int SelectedPortalDest;
     private Vec3 DestinationPos[] = new Vec3[5];
     private String DestinationDimKey[] = new String[5];
+    private boolean PreferStableAmmo;
     private CompoundTag PortalGunNBT;
+    private Button AmmoSelector;
+    private int StableAmmo = 0;
+    private int UnstableAmmo = 0;
 
     public NormalPortalGunScreen(Component pTitle, ItemStack PortalGun)
     {
@@ -66,8 +73,11 @@ public class NormalPortalGunScreen extends Screen {
             }else
                 SelectedPortalDest = 0;
 
+            if(PortalGunNBT.contains("stableAmmo")){
+                PreferStableAmmo = PortalGunNBT.getBoolean("stableAmmo");
+            }else
+                PreferStableAmmo = true;
         }
-
 
         //button selectors
         for(int i = 0; i < 5; i++){
@@ -77,8 +87,16 @@ public class NormalPortalGunScreen extends Screen {
         //close button
         this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, (button) -> {
             Close();
-        }).bounds(this.width / 2 - 100, this.height-50, 200, 20).build());
+        }).bounds(this.width/2 + 90, this.height/2+40, 80, 20).build());
 
+        //Preffered ammo selector
+        AmmoSelector = this.addRenderableWidget(Button.builder(GetPreferredAmmoComponent(), (button) -> {
+            FlipPreferredAmmo();
+        }).bounds(this.width/2 + 105, this.height/2 - 45, 50, 20).build());
+
+        Player localPlayer = Minecraft.getInstance().player;
+        StableAmmo = countItemInInventory(localPlayer, ModItems.PortalProjectileItem.get());
+        UnstableAmmo = countItemInInventory(localPlayer, ModItems.PortalProjectileUnstableItem.get());
     }
     private void MakeButtonsForCoordinates(int num){
         this.addRenderableWidget(new ImageButton(this.width / 2 + 25, this.height/2 - 60 + (num * 25), 20, 20,
@@ -88,7 +106,7 @@ public class NormalPortalGunScreen extends Screen {
         this.addRenderableWidget(new ImageButton(this.width / 2 + 50, this.height/2 - 60 + (num * 25), 20, 20,
                 0, 0, 20, SelectIcon, 20, 40, (button) -> {
             SetPos(num);
-            Close();
+            //Close();
         }));
     }
     private void MakeInfoForCoordinates(int num, GuiGraphics pGuiGraphics){
@@ -113,6 +131,17 @@ public class NormalPortalGunScreen extends Screen {
 
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         pGuiGraphics.pose().pushPose();
+
+        //background
+        pGuiGraphics.blitNineSlicedSized(
+                NineSlice,
+                this.width/2 - 190, this.height/2 - 85,
+                380, 155,
+                16,16,
+                64, 64,
+                0, 0,
+                64,64
+        );
         //title and positions
         pGuiGraphics.fill(
                 this.width/2 - 180 - 2,
@@ -121,15 +150,24 @@ public class NormalPortalGunScreen extends Screen {
                 this.height/2 - 38 + (SelectedPortalDest * 25),
                 HighlightColor);
 
-        pGuiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 40, 16777215);
+        pGuiGraphics.drawCenteredString(this.font, Component.translatable("screen.portal.preferred-title"),
+                this.width/2 + 130, this.height/2 - 57, 16777215);
+
+        //Ammo info
+        Player localPlayer = Minecraft.getInstance().player;
+        pGuiGraphics.drawCenteredString(this.font, "Stable Capsules: "+StableAmmo,
+                this.width/2 + 130, this.height/2 - 10, 16777215);
+        pGuiGraphics.drawCenteredString(this.font, "Unstable Capsules: "+UnstableAmmo,
+                this.width/2 + 130, this.height/2 + 10, 16777215);
+
+        pGuiGraphics.drawCenteredString(this.font, this.title, this.width / 2, this.height/2 - 75, 16777215);
 
         for (int i = 0; i < 5; i++){
             MakeInfoForCoordinates(i, pGuiGraphics);
         }
 
         pGuiGraphics.pose().popPose();
-        //TODO: pozadí
-        //pGuiGraphics.blit(new ResourceLocation("textures/gui/container/enchanting_table.png"), i, j, 0, 0, this.width/2, this.height);
+
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
     }
 
@@ -177,5 +215,30 @@ public class NormalPortalGunScreen extends Screen {
         if(number > UpperLimit) number = UpperLimit;
         else if(number < LowerLimit) number = LowerLimit;
         return number;
+    }
+    public Component GetPreferredAmmoComponent(){
+        if(PreferStableAmmo) return Component.translatable("screen.portal.preferred-stable");
+        return Component.translatable("screen.portal.preferred-unstable");
+    }
+    public void FlipPreferredAmmo(){
+        PortalGunNBT.putBoolean("stableAmmo", !PreferStableAmmo);
+        PreferStableAmmo = !PreferStableAmmo;
+        if(PreferStableAmmo)
+            AmmoSelector.setMessage(Component.translatable("screen.portal.preferred-stable"));
+        else
+            AmmoSelector.setMessage(Component.translatable("screen.portal.preferred-unstable"));
+
+
+    }
+    public static int countItemInInventory(Player player, Item item) {
+        int count = 0;
+
+        for (ItemStack stack : player.getInventory().items) {
+            if (!stack.isEmpty() && stack.getItem() == item) {
+                count += stack.getCount();
+            }
+        }
+
+        return count;
     }
 }

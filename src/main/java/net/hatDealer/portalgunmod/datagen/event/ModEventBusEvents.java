@@ -16,8 +16,13 @@ public final class ModEventBusEvents {
     @SubscribeEvent
     public static void onKeyInputEvent(InputEvent.Key event){
         if(Minecraft.getInstance().player == null) return;
-        if(Minecraft.getInstance().screen != null) return;
+        if(Minecraft.getInstance().screen != null && !(Minecraft.getInstance().screen instanceof NormalPortalGunScreen)) return;
         if(event.getKey() == 82 && event.getAction() == 0){
+            if(Minecraft.getInstance().screen instanceof NormalPortalGunScreen portalScreen){
+                portalScreen.Close();
+                return;
+            }
+
             if(Minecraft.getInstance().player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == ModItems.PortalGun.get()){
                 Minecraft.getInstance().setScreen(new NormalPortalGunScreen(Component.translatable("screen.portal.title"),
                         Minecraft.getInstance().player.getItemInHand(InteractionHand.MAIN_HAND)));

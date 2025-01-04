@@ -21,8 +21,10 @@ public class ModCreativeModTabs {
                         //add items to creative tab
                         pOutput.accept(ModItems.PortalGun.get());
                         pOutput.accept(ModItems.PortalProjectileItem.get());
+                        pOutput.accept(ModItems.PortalProjectileUnstableItem.get());
                         pOutput.accept(ModItems.UnstablePortalPotion.get());
                         pOutput.accept(ModItems.StabilizedPortalPotion.get());
+                        pOutput.accept(ModItems.PrecursorPortalPotion.get());
 
                     })
                     .build());

@@ -42,6 +42,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         //simpleItem(ModItems.PortalProjectileItem);
         simpleItem(ModItems.UnstablePortalPotion);
         simpleItem(ModItems.StabilizedPortalPotion);
+        simpleItem(ModItems.PrecursorPortalPotion);
     }
     private ItemModelBuilder simpleItem(RegistryObject<Item> item){
         return withExistingParent(item.getId().getPath(),

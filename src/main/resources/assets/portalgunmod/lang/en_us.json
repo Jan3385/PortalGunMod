@@ -1,20 +1,22 @@
 {
   "tooltip.portalgun": "Fires a portal using Portal fluid\nPortal destination can be set",
 
-  "creativetab.portalgunmod_tab": "Other Worlds",
+  "creativetab.portalgunmod_tab": "Portal Gun Mod",
 
   "block.portalgunmod.whitest_block" : "Whitest Block",
-  "item.portalgunmod.portalprojectileitem": "Portal Fluid capsule",
+  "item.portalgunmod.portalprojectileitem": "Stable Portal Fluid",
+  "item.portalgunmod.portalprojectileunstableitem": "Unstable Portal Fluid",
   "item.portalgunmod.portalgun": "Portal Gun",
   "item.portalgunmod.unstable_portal_potion":  "Unstable Portal Liquid",
   "item.portalgunmod.stabilized_portal_potion":  "Stabilized Portal Liquid",
+  "item.portalgunmod.precursor_portal_potion":  "Precursor Portal Liquid",
 
   "tooltip.stable.potion": "Can be safely thrown",
   "tooltip.unstable.potion": "Can cause unexpected results when thrown!",
+  "tooltip.precursor.potion": "Smells like updog and tastes unlucky",
 
-  "screen.portal.title" : "Portal Teleportation Vector",
-  "screen.portal.message" : "Yapping alert!!",
-  "screen.portal.portalLife" : "Exist for Seconds: ",
-  "screen.portal.disappearsAfterUse": "One use only",
-  "screen.portal.doesntDisappearAfterUse": "Multiple uses"
+  "screen.portal.title" : "Portal Manipulation Panel",
+  "screen.portal.preferred-title": "Preferred Fluid:",
+  "screen.portal.preferred-stable":   "Stable",
+  "screen.portal.preferred-unstable": "Unstable"
 }

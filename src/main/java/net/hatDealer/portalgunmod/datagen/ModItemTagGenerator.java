@@ -22,7 +22,8 @@ public class ModItemTagGenerator extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider Provider) {
         this.tag(ModTags.Items.PORTAL_AMMO)
-            .add(ModItems.PortalProjectileItem.get());
+                .add(ModItems.PortalProjectileItem.get())
+                .add(ModItems.PortalProjectileUnstableItem.get());
 
         this.tag(ModTags.Items.FROGLIGHT)
                 .add(Items.OCHRE_FROGLIGHT)

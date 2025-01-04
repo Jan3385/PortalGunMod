@@ -31,7 +31,7 @@ public class PortalProjectileEntity extends AbstractArrow {
     private int portalTime = 200;
     private String DestinationDimKey = "minecraft:overworld";
     private Vec3i DestinationPos = new Vec3i(150,150,150);
-    private int ProjectileLifeLength = 200;
+    private int ProjectileLifeLength = 300;
     private boolean disappearAfterUse = false;
     Vec3 SpawnPos;
     private int maxDistance = 7;

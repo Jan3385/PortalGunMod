@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_nether_star": {
+    "has_netherite_ingot": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:nether_star"
+              "minecraft:netherite_ingot"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_nether_star",
+      "has_netherite_ingot",
       "has_the_recipe"
     ]
   ],

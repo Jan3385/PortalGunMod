@@ -1,5 +1,5 @@
 {
-  "tooltip.portalgun": "Fires a portal using Portal fluid\nPortal destination can be set",
+  "tooltip.portalgun": "(r) - Open menu\nFires a portal using Portal fluid\nPortal destination can be set",
 
   "creativetab.portalgunmod_tab": "Portal Gun Mod",
 
@@ -18,5 +18,7 @@
   "screen.portal.title" : "Portal Manipulation Panel",
   "screen.portal.preferred-title": "Preferred Fluid:",
   "screen.portal.preferred-stable":   "Stable",
-  "screen.portal.preferred-unstable": "Unstable"
+  "screen.portal.preferred-unstable": "Unstable",
+
+  "entity.portalgunmod.portal_entity": "Portal"
 }

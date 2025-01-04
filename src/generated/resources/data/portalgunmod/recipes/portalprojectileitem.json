@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:iron_nugget"
+    },
+    "Q": {
+      "item": "portalgunmod:stabilized_portal_potion"
+    },
+    "U": {
+      "tag": "portalgunmod:portal_glass_panes"
+    }
+  },
+  "pattern": [
+    " U ",
+    " Q ",
+    " # "
+  ],
+  "result": {
+    "item": "portalgunmod:portalprojectileitem"
+  },
+  "show_notification": true
+}

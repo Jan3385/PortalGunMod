@@ -16,8 +16,9 @@ public class ModTags {
         }
     }
     public static class Items {
-        public static final TagKey<Item> PORTAL_AMMO = tag("portal_ammo");
-        public static final TagKey<Item> FROGLIGHT = tag("froglight");
+        public static final TagKey<Item> PORTAL_AMMO = tag("portal_gun_ammo");
+        public static final TagKey<Item> FROGLIGHT = tag("portal_froglight");
+        public static final TagKey<Item> GLASSPANES = tag("portal_glass_panes");
 
         private static TagKey<Item> tag(String name) {
             return ItemTags.create(new ResourceLocation(PortalGunMod.MODID, name));

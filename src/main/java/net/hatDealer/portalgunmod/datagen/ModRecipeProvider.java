@@ -5,6 +5,7 @@ import net.hatDealer.portalgunmod.items.ModItems;
 import net.hatDealer.portalgunmod.util.ModTags;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -31,7 +32,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     @Override
     protected void buildRecipes(Consumer<FinishedRecipe> pWriter) {
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.PortalGun.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.PortalGun.get())
                 .pattern(" # ")
                 .pattern("bNQ")
                 .pattern("b L")
@@ -40,9 +41,28 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('N', Items.NETHERITE_INGOT)
                 .define('Q', Blocks.QUARTZ_BLOCK)
                 .define('L', Blocks.LIGHTNING_ROD)
-                .unlockedBy(getHasName(Items.NETHER_STAR), has(Items.NETHER_STAR))
+                .unlockedBy(getHasName(Items.NETHERITE_INGOT), has(Items.NETHERITE_INGOT))
                 .save(pWriter);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.PortalProjectileItem.get())
+                .pattern(" U ")
+                .pattern(" Q ")
+                .pattern(" # ")
+                .define('U', ModTags.Items.GLASSPANES)
+                .define('Q', ModItems.StabilizedPortalPotion.get())
+                .define('#', Items.IRON_NUGGET)
+                .unlockedBy(getHasName(Items.GLASS_BOTTLE), has(Items.GLASS_BOTTLE))
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.PortalProjectileUnstableItem.get())
+                .pattern(" U ")
+                .pattern(" Q ")
+                .pattern(" # ")
+                .define('U', ModTags.Items.GLASSPANES)
+                .define('Q', ModItems.UnstablePortalPotion.get())
+                .define('#', Items.IRON_NUGGET)
+                .unlockedBy(getHasName(Items.GLASS_BOTTLE), has(Items.GLASS_BOTTLE))
+                .save(pWriter);
         //example smelting
         //oreSmelting(pWriter, List.of(ModItems.PortalGun.get()), RecipeCategory.MISC, ModItems.PortalProjectileItem.get(), 1f, 200, "group");
     }

@@ -1,3 +1,7 @@
-// 1.20.1	2025-01-03T19:46:42.0569933	Recipes
-a23d4c4e822d4ff7223dde9802d3360065612839 data/portalgunmod/advancements/recipes/misc/portalgun.json
-b33460833eab127f2550d189e0bda7c6115b78d9 data/portalgunmod/recipes/portalgun.json
+// 1.20.1	2025-01-04T19:13:33.1561187	Recipes
+41353b5a0d73a4d788b2c86461032abc5efa34f5 data/portalgunmod/advancements/recipes/misc/portalprojectileitem.json
+000bcad0821adf9900028f14ee0b60af6591f12d data/portalgunmod/advancements/recipes/misc/portalprojectileunstableitem.json
+209658bfddd9ad79835b5c56daf1d62843cbba24 data/portalgunmod/advancements/recipes/tools/portalgun.json
+881b1b7a0165c4018d0f6b5645c4b2cb214ad626 data/portalgunmod/recipes/portalgun.json
+3393d5aa88be910f1fdf0c1a9c30a76f2cf31928 data/portalgunmod/recipes/portalprojectileitem.json
+464a8acd0f22a9eed48c85f0e5fee96c4a5e7885 data/portalgunmod/recipes/portalprojectileunstableitem.json

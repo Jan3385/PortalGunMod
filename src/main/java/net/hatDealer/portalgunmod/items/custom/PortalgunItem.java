@@ -59,20 +59,6 @@ public abstract class PortalgunItem extends ProjectileWeaponItem {
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving, int pTimeLeft) {
     }
 
-    /**
-     * How long it takes to use or consume an item
-     */
-    public int getUseDuration(ItemStack pStack) {
-        return 100;
-    }
-
-    /**
-     * Returns the action that specifies what animation to play when the item is being used.
-     */
-    public @NotNull UseAnim getUseAnimation(ItemStack pStack) {
-        return UseAnim.BOW;
-    }
-
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
         super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
@@ -179,5 +165,26 @@ public abstract class PortalgunItem extends ProjectileWeaponItem {
                 return net.minecraftforge.common.ForgeHooks.getProjectile(pPlayer, pShootable, pPlayer.getAbilities().instabuild ? new ItemStack(ModItems.PortalProjectileItem.get()) : ItemStack.EMPTY);
             }
         }
+    }
+    @Override
+    public boolean isFoil(ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    public boolean useOnRelease(ItemStack stack) {
+        return true;
+    }
+    /**
+     * Returns the action that specifies what animation to play when the item is being used.
+     */
+    public @NotNull UseAnim getUseAnimation(ItemStack pStack) {
+        return UseAnim.CROSSBOW;
+    }
+    /**
+     * How long it takes to use or consume an item
+     */
+    public int getUseDuration(ItemStack pStack) {
+        return 100;
     }
 }

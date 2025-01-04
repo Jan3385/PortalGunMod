@@ -1,3 +1,4 @@
-// 1.20.1	2025-01-04T16:19:45.6992444	Tags for minecraft:item mod id portalgunmod
-0d91c860420e5c6d47e16f6376dad63806657b0b data/portalgunmod/tags/items/froglight.json
-5144172b98188e5964ba86c4d39a377e2dd4626d data/portalgunmod/tags/items/portal_ammo.json
+// 1.20.1	2025-01-04T19:17:37.1563175	Tags for minecraft:item mod id portalgunmod
+0d91c860420e5c6d47e16f6376dad63806657b0b data/portalgunmod/tags/items/portal_froglight.json
+00dfb2cb3766231c406548fa7fdbf5bdbc7b00df data/portalgunmod/tags/items/portal_glass_panes.json
+5144172b98188e5964ba86c4d39a377e2dd4626d data/portalgunmod/tags/items/portal_gun_ammo.json

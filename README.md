@@ -12,3 +12,7 @@ without the portal gun
 ## Portal Gun
 Mod includes one portal gun which can save up to 5 locations (including between dimensions)
 and it can shoot both stable and unstable portal fluids. It's menu can be opened using the `R` button
+
+
+## Links
+[CurseForge](https://www.curseforge.com/minecraft/mc-mods/portal-gun-mod)

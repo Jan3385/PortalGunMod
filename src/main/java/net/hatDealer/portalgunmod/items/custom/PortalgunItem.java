@@ -30,6 +30,9 @@ public abstract class PortalgunItem extends ProjectileWeaponItem {
     public static final Predicate<ItemStack> PORTAL_ONLY = (itemStack) -> {
         return itemStack.is(ModTags.Items.PORTAL_AMMO);
     };
+    public static final Predicate<ItemStack> STABLE_ONLY = (itemStack) -> {
+        return itemStack.is(ModItems.PortalProjectileItem.get());
+    };
     public static int getPortalLifetime(ItemStack pPortalGun) {
         return 160;
     }
@@ -70,37 +73,25 @@ public abstract class PortalgunItem extends ProjectileWeaponItem {
         ItemStack PortalGun = pPlayer.getItemInHand(pHand);
         boolean infinite_ammo = pPlayer.getAbilities().instabuild;
 
-        ItemStack itemstack = PortalgunItem.getPortalGunProjectile(PortalGun, pPlayer);
+        ItemStack itemProjectile = PortalgunItem.getPortalGunProjectile(PortalGun, pPlayer);
 
-        if (!itemstack.isEmpty() || infinite_ammo) {
+        if (!itemProjectile.isEmpty() || infinite_ammo) {
             //generate portal ammo if using infinite ammo
-            if (itemstack.isEmpty()) {
-                itemstack = new ItemStack(ModItems.PortalProjectileItem.get());
+            if (itemProjectile.isEmpty()) {
+                itemProjectile = new ItemStack(ModItems.PortalProjectileItem.get());
             }
             //on server, create and launch projectile
             if (!pLevel.isClientSide) {
-                CompoundTag PortalGunNBT = PortalGun.getOrCreateTag();
 
-                Vec3i PortalPos = PortalGunNBTReader.GetPosFromPortalGunNBT(PortalGunNBT, pPlayer.position());
-                String PortalDimKey = PortalGunNBTReader.GetDimKeyDromPortalGunNBT(PortalGunNBT);
+                ArrowItem arrowitem = (ArrowItem) (itemProjectile.getItem());
 
-                ArrowItem arrowitem = (ArrowItem) (itemstack.getItem());
-
-                AbstractArrow abstractArrow;
-                if(arrowitem instanceof PortalProjectileItem p){
-                    abstractArrow = p.createArrow(pLevel, itemstack,
-                            pPlayer, PortalDimKey, PortalPos, getPortalLifetime(PortalGun), getPortalDisappear(PortalGun));
-                }else{
-                    assert (arrowitem instanceof PortalProjectileItemUnstable);
-
-                    abstractArrow = ((PortalProjectileItemUnstable)arrowitem).createArrow(pLevel, itemstack, pPlayer);
-                }
-
-                abstractArrow.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 3.0F, 0.0F);
-
-                pLevel.addFreshEntity(abstractArrow);
-
-                pPlayer.getCooldowns().addCooldown(this, 20);
+                Shoot(
+                        arrowitem,
+                        pPlayer,
+                        pLevel,
+                        itemProjectile,
+                        PortalGun
+                );
 
             }
 
@@ -110,13 +101,13 @@ public abstract class PortalgunItem extends ProjectileWeaponItem {
 
             //remove ammo, if player doesnt have infinite ammo
             if (!infinite_ammo) {
-                itemstack.shrink(1);
-                if (itemstack.isEmpty()) {
-                    pPlayer.getInventory().removeItem(itemstack);
+                itemProjectile.shrink(1);
+                if (itemProjectile.isEmpty()) {
+                    pPlayer.getInventory().removeItem(itemProjectile);
                 }
             }
 
-            //infinite durability
+            //durability
             //player.awardStat(Stats.ITEM_USED.get(this));
 
             return InteractionResultHolder.success(pPlayer.getItemInHand(pHand));
@@ -125,6 +116,7 @@ public abstract class PortalgunItem extends ProjectileWeaponItem {
             return InteractionResultHolder.fail(pPlayer.getItemInHand(pHand));
         }
     }
+    protected abstract void Shoot(ArrowItem projectile, Player pPlayer, Level pLevel, ItemStack itemProjectile, ItemStack PortalGun);
 
     /**
      * Get the predicate to match ammunition when searching the player's inventory, not their main/offhand

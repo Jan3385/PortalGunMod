@@ -44,7 +44,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(Items.NETHERITE_INGOT), has(Items.NETHERITE_INGOT))
                 .save(pWriter);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.PortalProjectileItem.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.PortalProjectileItem.get(), 4)
                 .pattern(" U ")
                 .pattern(" Q ")
                 .pattern(" # ")
@@ -54,7 +54,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(Items.GLASS_BOTTLE), has(Items.GLASS_BOTTLE))
                 .save(pWriter);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.PortalProjectileUnstableItem.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.PortalProjectileUnstableItem.get(), 4)
                 .pattern(" U ")
                 .pattern(" Q ")
                 .pattern(" # ")

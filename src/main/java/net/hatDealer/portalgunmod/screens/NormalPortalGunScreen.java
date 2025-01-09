@@ -36,6 +36,7 @@ public class NormalPortalGunScreen extends Screen {
     private final static ResourceLocation SelectIcon = new ResourceLocation(PortalGunMod.MODID,"textures/gui/select.png");
     private final static ResourceLocation CoordsBackground = new ResourceLocation("textures/gui/slider.png");
     private final static ResourceLocation NineSlice = new ResourceLocation(PortalGunMod.MODID,"textures/gui/nineslice.png");
+    private final static ResourceLocation Background = new ResourceLocation(PortalGunMod.MODID,"textures/gui/portal-background.png");
     //private final static int HighlightColor = Color.HSBtoRGB(46, 34.5f, 20);
     private final static int HighlightColor = 0xB0EAA700; //TODO: different color
     private int SelectedPortalDest;
@@ -133,7 +134,7 @@ public class NormalPortalGunScreen extends Screen {
         pGuiGraphics.pose().pushPose();
 
         //background
-        pGuiGraphics.blitNineSlicedSized(
+        /*pGuiGraphics.blitNineSlicedSized(
                 NineSlice,
                 this.width/2 - 190, this.height/2 - 85,
                 380, 155,
@@ -141,7 +142,11 @@ public class NormalPortalGunScreen extends Screen {
                 64, 64,
                 0, 0,
                 64,64
-        );
+        );*/
+        int w = this.width / 2 - 180 - 7;
+        int h = this.height / 2 - 75 - 7;
+        pGuiGraphics.blit(Background, w, h, 0, 0, 374, 142 + 7, 374, 142 + 7);
+
         //title and positions
         pGuiGraphics.fill(
                 this.width/2 - 180 - 2,
@@ -154,12 +159,12 @@ public class NormalPortalGunScreen extends Screen {
                 this.width/2 + 130, this.height/2 - 57, 16777215);
 
         //Ammo info
-        Player localPlayer = Minecraft.getInstance().player;
         pGuiGraphics.drawCenteredString(this.font, "Stable Capsules: "+StableAmmo,
                 this.width/2 + 130, this.height/2 - 10, 16777215);
         pGuiGraphics.drawCenteredString(this.font, "Unstable Capsules: "+UnstableAmmo,
                 this.width/2 + 130, this.height/2 + 10, 16777215);
 
+        //GUI title
         pGuiGraphics.drawCenteredString(this.font, this.title, this.width / 2, this.height/2 - 75, 16777215);
 
         for (int i = 0; i < 5; i++){

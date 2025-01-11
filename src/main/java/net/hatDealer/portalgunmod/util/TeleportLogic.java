@@ -31,6 +31,21 @@ public class TeleportLogic {
     private TeleportLogic(){ }
 
     public static BlockPos FindViablePositionFor(ServerLevel dim, BlockPos OriginalPos){
+        BlockPos bPosFirst = new BlockPos(OriginalPos);
+        do{
+            //try to place portal down
+            if (!dim.getBlockState(bPosFirst.below()).isAir()
+                    && dim.getBlockState(bPosFirst).isAir()
+                    && dim.getBlockState(bPosFirst.above()).isAir()) return bPosFirst;
+
+            //if encased in blocks, skip
+            if(!dim.getBlockState(bPosFirst.below()).isAir()
+                && !dim.getBlockState(bPosFirst).isAir()
+                && !dim.getBlockState(bPosFirst.above()).isAir()) break;
+
+            bPosFirst = bPosFirst.below();
+        }while (bPosFirst.getY() > -64);
+
         for(BlockPos bPos : BlockPos.spiralAround(OriginalPos, 16, Direction.EAST, Direction.SOUTH)){
              bPos = bPos.atY(127);
             while (bPos.getY() > 32) {

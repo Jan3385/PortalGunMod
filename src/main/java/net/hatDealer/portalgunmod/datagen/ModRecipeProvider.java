@@ -5,6 +5,7 @@ import net.hatDealer.portalgunmod.items.ModItems;
 import net.hatDealer.portalgunmod.util.ModTags;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -43,6 +44,20 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('L', Blocks.LIGHTNING_ROD)
                 .unlockedBy(getHasName(Items.NETHERITE_INGOT), has(Items.NETHERITE_INGOT))
                 .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.TravelPortalGun.get())
+                .pattern(" # ")
+                .pattern("bNQ")
+                .pattern("bsL")
+                .define('#', ModItems.StabilizedPortalPotion.get())
+                .define('b', Items.WARPED_BUTTON)
+                .define('N', Items.NETHER_STAR)
+                .define('Q', Blocks.QUARTZ_BLOCK)
+                .define('L', Blocks.END_ROD)
+                .define('s', ItemTags.SLABS)
+                .unlockedBy(getHasName(Items.NETHER_STAR), has(Items.NETHER_STAR))
+                .save(pWriter);
+
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.PortalProjectileItem.get(), 4)
                 .pattern(" U ")

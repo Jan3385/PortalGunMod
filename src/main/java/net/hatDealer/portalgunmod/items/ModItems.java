@@ -3,6 +3,7 @@ package net.hatDealer.portalgunmod.items;
 import net.hatDealer.portalgunmod.PortalGunMod;
 import net.hatDealer.portalgunmod.items.custom.*;
 import net.hatDealer.portalgunmod.items.custom.PortalGuns.NormalPortalGunItem;
+import net.hatDealer.portalgunmod.items.custom.PortalGuns.TravelPortalGunItem;
 import net.hatDealer.portalgunmod.items.custom.PortalProjectiles.PortalProjectileItem;
 import net.hatDealer.portalgunmod.items.custom.PortalProjectiles.PortalProjectileItemUnstable;
 import net.minecraft.world.item.Item;
@@ -17,6 +18,9 @@ public class ModItems {
 	
 	public static final RegistryObject<Item> PortalGun = ITEMS.register("portalgun",
 			()-> new NormalPortalGunItem(new Item.Properties().stacksTo(1)));
+
+	public static final RegistryObject<Item> TravelPortalGun = ITEMS.register("travelportalgun",
+			()-> new TravelPortalGunItem(new Item.Properties().stacksTo(1)));
 
 	public static final RegistryObject<Item> PortalProjectileItem = ITEMS.register("portalprojectileitem",
 			()-> new PortalProjectileItem(new Item.Properties().stacksTo(16)));

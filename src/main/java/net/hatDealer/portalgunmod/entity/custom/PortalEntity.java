@@ -2,9 +2,9 @@ package net.hatDealer.portalgunmod.entity.custom;
 
 import net.hatDealer.portalgunmod.entity.ModEntities;
 import net.hatDealer.portalgunmod.util.TeleportLogic;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
@@ -28,6 +28,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 
 public class PortalEntity extends Entity{
     private static final EntityDataAccessor<Direction> DIRECTION = SynchedEntityData.defineId(PortalEntity.class, EntityDataSerializers.DIRECTION);
@@ -66,6 +67,11 @@ public class PortalEntity extends Entity{
             this.entityData.set(SIZE, 0f);
 
             this.canTeleport = true;
+
+            Player localPlayer = Minecraft.getInstance().player;
+            String DimKey = localPlayer.level().dimension().location().toString();
+
+            checkPortalPosition(pData.DestinationPos,DimKey, pData.DestinationDimKey);
         }
     }
     //init for standart portal with yRot - normal functionality
@@ -82,6 +88,11 @@ public class PortalEntity extends Entity{
             this.entityData.set(SIZE, 1f);
 
             this.canTeleport = true;
+
+            Player localPlayer = Minecraft.getInstance().player;
+            String DimKey = localPlayer.level().dimension().location().toString();
+
+            checkPortalPosition(pData.DestinationPos,DimKey, pData.DestinationDimKey);
         }
     }
     //init for exit portal - only decorative
@@ -330,26 +341,25 @@ public class PortalEntity extends Entity{
                             pData.pos.x + (double) f, pData.pos.y + (double) f1, pData.pos.z + (double) f));
 
             this.level().gameEvent(otherPortalEntity, GameEvent.ENTITY_PLACE, otherPortalEntity.position());
-
-            //this.level().addFreshEntity(otherPortalEntity);
-
-            //otherPortalEntity.asignDestination(this.getDestinationReturn());
-
-            //this.asignDestination(otherPortalEntity.getDestinationReturn());
-
-            //Vec3 vec3Pos = new Vec3(pData.pos.x, pData.pos.y, pData.pos.z);
-            //otherPortalEntity.changeDimension(DimensionHelper.getOrCreateWorld(this.getServer(), pData.ReturnDestinationIndex), new ITeleporter() {
-            //    @Override
-            //    public PortalInfo getPortalInfo(Entity entity, ServerLevel destWorld, Function<ServerLevel, PortalInfo> defaultPortalInfo) {
-            //        return new PortalInfo(vec3Pos, Vec3.ZERO, entity.getYRot(), entity.getXRot());
-            //    }
-            //});
-
         }
     }
     public void despawnPortal(){
         this.level().playSound((Player) null, this.getBlockX(), this.getBlockY(), this.getBlockZ(),
                 SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.5F, 0.6F);
         this.discard();
+    }
+    public void despawnPortalViolent(){
+        this.level().playSound((Player) null, this.getBlockX(), this.getBlockY(), this.getBlockZ(),
+                SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.5F, 0.6F);
+        this.level().playSound((Player) null, this.getBlockX(), this.getBlockY(), this.getBlockZ(),
+                SoundEvents.ALLAY_DEATH, SoundSource.PLAYERS, 0.5F, 0.3F);
+        this.discard();
+    }
+    private void checkPortalPosition(Vec3i OutPos, String dimIn, String dimOut){
+        if(!Objects.equals(dimIn, dimOut)) return;
+        if(OutPos.distToCenterSqr(this.position()) < 4){
+            this.despawnPortalViolent();
+            //TODO: Maybe spawn spilled portal fluid block ? (like carpet)
+        }
     }
 }

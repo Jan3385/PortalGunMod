@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "portalgunmod:stabilized_portal_potion"
+    },
+    "L": {
+      "item": "minecraft:end_rod"
+    },
+    "N": {
+      "item": "minecraft:nether_star"
+    },
+    "Q": {
+      "item": "minecraft:quartz_block"
+    },
+    "b": {
+      "item": "minecraft:warped_button"
+    },
+    "s": {
+      "tag": "minecraft:slabs"
+    }
+  },
+  "pattern": [
+    " # ",
+    "bNQ",
+    "bsL"
+  ],
+  "result": {
+    "item": "portalgunmod:travelportalgun"
+  },
+  "show_notification": true
+}

@@ -10,9 +10,11 @@ Portal fluid potions can be also thrown, which will result in them breaking and 
 without the portal gun
 
 ## Portal Gun
-Mod includes one portal gun which can save up to 5 locations (including between dimensions)
+### Normal Portal Gun
+Portal gun which can save up to 5 locations (including between dimensions)
 and it can shoot both stable and unstable portal fluids. It's menu can be opened using the `R` button
-
+### Traveler's Portal Gun
+Portal gun which can teleport the player to any dimension at any destination.
 
 ## Links
 [CurseForge](https://www.curseforge.com/minecraft/mc-mods/portal-gun-mod)

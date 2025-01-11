@@ -18,17 +18,16 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class NormalPortalGunItem extends PortalgunItem {
-    public NormalPortalGunItem(Properties pProperties) {
-        super(pProperties);
-    }
+public class TravelPortalGunItem extends PortalgunItem {
+    public TravelPortalGunItem(Properties pProperties) { super(pProperties); }
 
     @Override
     protected void Shoot(ArrowItem projectile, Player pPlayer, Level pLevel, ItemStack itemProjectile, ItemStack PortalGun) {
+        //WIP - rework
         CompoundTag PortalGunNBT = PortalGun.getOrCreateTag();
 
-        Vec3i PortalPos = PortalGunNBTReader.GetPosFromStandardPortalGunNBT(PortalGunNBT, pPlayer.position());
-        String PortalDimKey = PortalGunNBTReader.GetDimKeyFromStandardPortalGunNBT(PortalGunNBT);
+        Vec3i PortalPos = PortalGunNBTReader.GetPosFromTravelersPortalGunNBT(PortalGunNBT, pPlayer.position());
+        String PortalDimKey = PortalGunNBTReader.GetDimKeyFromTravelersPortalGunNBT(PortalGunNBT);
 
         AbstractArrow abstractArrow;
         if(projectile instanceof PortalProjectileItem p){
@@ -47,9 +46,7 @@ public class NormalPortalGunItem extends PortalgunItem {
         pPlayer.getCooldowns().addCooldown(this, 20);
     }
     @Override
-    public boolean getPortalDisappear() {
-        return false;
-    }
+    public int getPortalLifetime() { return 100; }
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
 
@@ -57,7 +54,7 @@ public class NormalPortalGunItem extends PortalgunItem {
                 Component.translatable("tooltip.portalgun").withStyle(ChatFormatting.DARK_GRAY));
 
         pTooltipComponents.add(
-                Component.translatable("tooltip.portalgun.special.normal").withStyle(ChatFormatting.GRAY));
+                Component.translatable("tooltip.portalgun.special.travel").withStyle(ChatFormatting.GRAY));
 
         pTooltipComponents.add(
                 Component.translatable("tooltip.portalgun.portalduration").withStyle(ChatFormatting.GRAY)
@@ -65,7 +62,7 @@ public class NormalPortalGunItem extends PortalgunItem {
 
         pTooltipComponents.add(
                 Component.translatable("tooltip.portalgun.portalpeople").withStyle(ChatFormatting.GRAY)
-                        .append(Component.literal("YES").withStyle(ChatFormatting.DARK_GREEN)));
+                        .append(Component.literal("NO").withStyle(ChatFormatting.DARK_RED)));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

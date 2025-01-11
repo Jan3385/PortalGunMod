@@ -30,7 +30,7 @@ public class PortalRenderer extends EntityRenderer<PortalEntity> {
     private final PortalModel model;
     private float size = 1;
     private static final int PortalAnimSpeed = 3;
-    private static final ResourceLocation PortalTexture = new ResourceLocation(PortalGunMod.MODID, "textures/entity/black.png");
+    private static final ResourceLocation PortalTexture = new ResourceLocation(PortalGunMod.MODID, "textures/entity/portal-backup.png");
     public PortalRenderer(EntityRendererProvider.Context pContext) {
 
         //super(pContext, new PortalModel<>(pContext.bakeLayer(ModModelLayers.PORTAL_LAYER)), 0f);

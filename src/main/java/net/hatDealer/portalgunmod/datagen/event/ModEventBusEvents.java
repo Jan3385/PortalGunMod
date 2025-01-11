@@ -3,6 +3,9 @@ package net.hatDealer.portalgunmod.datagen.event;
 import net.hatDealer.portalgunmod.PortalGunMod;
 import net.hatDealer.portalgunmod.items.ModItems;
 import net.hatDealer.portalgunmod.screens.NormalPortalGunScreen;
+import net.hatDealer.portalgunmod.screens.PortalScreen;
+import net.hatDealer.portalgunmod.screens.TravelPortalGunScreen;
+import net.hatDealer.portalgunmod.util.ModKeybinds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -15,17 +18,18 @@ import net.minecraftforge.fml.common.Mod;
 public final class ModEventBusEvents {
     @SubscribeEvent
     public static void onKeyInputEvent(InputEvent.Key event){
-        if(Minecraft.getInstance().player == null) return;
-        if(Minecraft.getInstance().screen != null && !(Minecraft.getInstance().screen instanceof NormalPortalGunScreen)) return;
-        if(event.getKey() == 82 && event.getAction() == 0){
-            if(Minecraft.getInstance().screen instanceof NormalPortalGunScreen portalScreen){
-                portalScreen.Close();
-                return;
-            }
+        Minecraft mc = Minecraft.getInstance();
+        if(mc.player == null) return;
+        //if(mc.screen != null && !(mc.screen instanceof PortalScreen)) return;
 
-            if(Minecraft.getInstance().player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == ModItems.PortalGun.get()){
-                Minecraft.getInstance().setScreen(new NormalPortalGunScreen(Component.translatable("screen.portal.title"),
-                        Minecraft.getInstance().player.getItemInHand(InteractionHand.MAIN_HAND)));
+        if (ModKeybinds.OpenUI.consumeClick()){
+            if(mc.player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == ModItems.PortalGun.get()){
+                mc.setScreen(new NormalPortalGunScreen(Component.translatable("screen.portal.title"),
+                        mc.player.getItemInHand(InteractionHand.MAIN_HAND)));
+            }
+            else if(mc.player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == ModItems.TravelPortalGun.get()){
+                mc.setScreen(new TravelPortalGunScreen(Component.translatable("screen.portal.title"),
+                        mc.player.getItemInHand(InteractionHand.MAIN_HAND)));
             }
         }
     }

@@ -16,7 +16,7 @@ public class ModBrewingRecipes {
     public static void onCommonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             BrewingRecipeRegistry.addRecipe(
-                    Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.THICK)),
+                    Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.WATER)),
                     Ingredient.of(Items.CHORUS_FRUIT),
                     ModItems.PrecursorPortalPotion.get().getDefaultInstance());
 
@@ -26,7 +26,7 @@ public class ModBrewingRecipes {
                     ModItems.UnstablePortalPotion.get().getDefaultInstance());
 
             BrewingRecipeRegistry.addRecipe(
-                    Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.MUNDANE)),
+                    Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.WATER)),
                     Ingredient.of(Items.ENDER_CHEST),
                     ModItems.UnstablePortalPotion.get().getDefaultInstance());
 

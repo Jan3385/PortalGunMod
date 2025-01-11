@@ -17,5 +17,7 @@ public class ModNetworking {
     public static void register() {
         int id = 0;
         CHANNEL.registerMessage(id++, ItemNBTUpdatePacket.class, ItemNBTUpdatePacket::encode, ItemNBTUpdatePacket::decode, ItemNBTUpdatePacket::handle);
+        CHANNEL.registerMessage(id++, RequestDimensionsPacket.class, RequestDimensionsPacket::encode, RequestDimensionsPacket::decode, RequestDimensionsPacket::handle);
+        CHANNEL.registerMessage(id++, DimensionIDsResponsePacket.class, DimensionIDsResponsePacket::encode, DimensionIDsResponsePacket::decode, DimensionIDsResponsePacket::handle);
     }
 }

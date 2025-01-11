@@ -33,10 +33,8 @@ public abstract class PortalgunItem extends ProjectileWeaponItem {
     public static final Predicate<ItemStack> STABLE_ONLY = (itemStack) -> {
         return itemStack.is(ModItems.PortalProjectileItem.get());
     };
-    public static int getPortalLifetime(ItemStack pPortalGun) {
-        return 160;
-    }
-    public static boolean getPortalDisappear(ItemStack pPortalGun) {
+    public int getPortalLifetime() { return 180; }
+    public boolean getPortalDisappear() {
         return true;
     }
     public int getDefaultProjectileRange() {

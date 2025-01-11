@@ -8,6 +8,7 @@ import net.hatDealer.portalgunmod.entity.ModEntities;
 import net.hatDealer.portalgunmod.items.ModCreativeModTabs;
 import net.hatDealer.portalgunmod.items.ModItems;
 import net.hatDealer.portalgunmod.networking.ModNetworking;
+import net.hatDealer.portalgunmod.util.ModKeybinds;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -58,6 +59,9 @@ public class PortalGunMod
         modEventBus.addListener(ModBrewingRecipes::onCommonSetup);
 
         ModNetworking.register();
+
+        // Register keybindings
+        modEventBus.addListener(ModKeybinds::registerKeyMappings);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)

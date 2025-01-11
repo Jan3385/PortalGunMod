@@ -37,6 +37,8 @@ public class ModEventBusClientEvents {
         {
             ItemProperties.register( ModItems.PortalGun.get(), new ResourceLocation("charged"),
                     (itemStack, clientLevel, livingEntity, numberArg) -> PortalgunItem.getChargeLevel(itemStack, livingEntity, numberArg));
+            ItemProperties.register( ModItems.TravelPortalGun.get(), new ResourceLocation("charged"),
+                    (itemStack, clientLevel, livingEntity, numberArg) -> PortalgunItem.getChargeLevel(itemStack, livingEntity, numberArg));
         });
     }
 

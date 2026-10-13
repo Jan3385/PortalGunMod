@@ -9,6 +9,7 @@ import net.hatDealer.portalgunmod.items.ModCreativeModTabs;
 import net.hatDealer.portalgunmod.items.ModItems;
 import net.hatDealer.portalgunmod.networking.ModNetworking;
 import net.hatDealer.portalgunmod.util.ModKeybinds;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -19,6 +20,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -61,7 +63,9 @@ public class PortalGunMod
         ModNetworking.register();
 
         // Register keybindings
-        modEventBus.addListener(ModKeybinds::registerKeyMappings);
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            modEventBus.addListener(ModKeybinds::registerKeyMappings);
+        }
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)

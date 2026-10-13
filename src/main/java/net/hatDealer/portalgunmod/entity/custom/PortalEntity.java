@@ -68,8 +68,7 @@ public class PortalEntity extends Entity{
 
             this.canTeleport = true;
 
-            Player localPlayer = Minecraft.getInstance().player;
-            String DimKey = localPlayer.level().dimension().location().toString();
+            String DimKey = this.level().dimension().location().toString();
 
             checkPortalPosition(pData.DestinationPos,DimKey, pData.DestinationDimKey);
         }
@@ -89,8 +88,7 @@ public class PortalEntity extends Entity{
 
             this.canTeleport = true;
 
-            Player localPlayer = Minecraft.getInstance().player;
-            String DimKey = localPlayer.level().dimension().location().toString();
+            String DimKey = this.level().dimension().location().toString();
 
             checkPortalPosition(pData.DestinationPos,DimKey, pData.DestinationDimKey);
         }

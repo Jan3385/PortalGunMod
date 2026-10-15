@@ -1,27 +1,18 @@
 package net.hatDealer.portalgunmod.entity.client;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import net.hatDealer.portalgunmod.Config;
 import net.hatDealer.portalgunmod.PortalGunMod;
 import net.hatDealer.portalgunmod.entity.custom.PortalEntity;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.Options;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.blockentity.TheEndPortalRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 
 //public class PortalRenderer extends LivingEntityRenderer<PortalEntity, PortalModel<PortalEntity>> {
@@ -30,7 +21,8 @@ public class PortalRenderer extends EntityRenderer<PortalEntity> {
     private final PortalModel model;
     private float size = 1;
     private static final int PortalAnimSpeed = 3;
-    private static final ResourceLocation PortalTexture = new ResourceLocation(PortalGunMod.MODID, "textures/entity/portal-backup.png");
+    private static final ResourceLocation PortalTextureBackup = new ResourceLocation(PortalGunMod.MODID, "textures/entity/portal-backup.png");
+    private static final ResourceLocation PortalTexture = new ResourceLocation(PortalGunMod.MODID, "textures/entity/portal.png");
     public PortalRenderer(EntityRendererProvider.Context pContext) {
 
         //super(pContext, new PortalModel<>(pContext.bakeLayer(ModModelLayers.PORTAL_LAYER)), 0f);
@@ -74,12 +66,14 @@ public class PortalRenderer extends EntityRenderer<PortalEntity> {
         VertexConsumer vertexconsumerUniversal = pBuffer.getBuffer(this.getRenderType(false));
         this.model.renderToBuffer(pPoseStack, vertexconsumerUniversal, pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1F);
 
-        pPoseStack.pushPose();
-        pPoseStack.scale(.98f, .98f, .98f);
-        vertexconsumerUniversal = pBuffer.getBuffer(this.getRenderType(true));
-        this.model.renderToBuffer(pPoseStack, vertexconsumerUniversal, pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1F);
+        if (Config.portalTexture == Config.PortalTexture.Normal){
+            pPoseStack.pushPose();
+            pPoseStack.scale(.98f, .98f, .98f);
+            vertexconsumerUniversal = pBuffer.getBuffer(this.getRenderType(true));
+            this.model.renderToBuffer(pPoseStack, vertexconsumerUniversal, pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1F);
+            pPoseStack.popPose();
+        }
 
-        pPoseStack.popPose();
         pPoseStack.popPose();
 
         super.render(pEntity, pEntityYaw, pPartialTicks, pPoseStack, pBuffer, pPackedLight);
@@ -91,8 +85,23 @@ public class PortalRenderer extends EntityRenderer<PortalEntity> {
     }
 
     protected RenderType getRenderType(boolean universalRendering) {
-        if(universalRendering) return RenderType.entitySolid(PortalTexture);
-        return RenderType.endPortal();
+        switch (Config.portalTexture) {
+            case Normal -> {
+                if(universalRendering) return RenderType.entitySolid(PortalTextureBackup);
+                return RenderType.endPortal();
+            }
+            case PortalEffectOFF -> {
+                return RenderType.entitySolid(PortalTextureBackup);
+            }
+            case RickAndMortyInspired -> {
+                return RenderType.entitySolid(PortalTexture);
+            }
+            default -> {
+                PortalGunMod.LOGGER.warn("Invalid Portal Texture set!");
+                return RenderType.entitySolid(PortalTextureBackup);
+            }
+        }
+
     }
 
     public float degToRads(float deg){

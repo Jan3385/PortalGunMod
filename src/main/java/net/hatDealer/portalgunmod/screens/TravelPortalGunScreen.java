@@ -16,6 +16,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.ArrayList;
 
 public class TravelPortalGunScreen extends PortalScreen {
+    private static final int screenXOffset = -32;
 
     private Vec3i PortalPos;
     private String PortalDimKey;
@@ -28,7 +29,7 @@ public class TravelPortalGunScreen extends PortalScreen {
         super(pTitle, PortalGun);
     }
     protected void init(){
-        super.init();
+        super.init(screenXOffset);
         if(PortalGunNBT.contains("VecX") && PortalGunNBT.contains("VecY") && PortalGunNBT.contains("VecZ")){
             PortalPos = new Vec3i(
                     PortalGunNBT.getInt("VecX"),
@@ -77,7 +78,8 @@ public class TravelPortalGunScreen extends PortalScreen {
 
     @Override
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick,  screenXOffset);
+
         this.x_position.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.y_position.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.z_position.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);

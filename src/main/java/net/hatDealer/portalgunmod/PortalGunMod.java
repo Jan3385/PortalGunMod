@@ -30,12 +30,13 @@ public class PortalGunMod
     // Define mod id in a common place for everything to reference
     public static final String MODID = "portalgunmod";
     // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
     public PortalGunMod()
     {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Config.SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
 
         ModCreativeModTabs.register(modEventBus);
 

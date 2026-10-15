@@ -31,11 +31,11 @@ public class PortalScreen extends Screen {
         this.PhysicalPortalGun = PortalGun;
         PortalGunNBT = PortalGun.getOrCreateTag();
     }
-    protected void init(){
+    protected void init(int xOffset){
         //close button
         this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, (button) -> {
             Close();
-        }).bounds(this.width/2 + 90, this.height/2+40, 80, 20).build());
+        }).bounds(this.width/2 + 90 + xOffset, this.height/2+40, 80, 20).build());
 
         if(PortalGunNBT.contains("stableAmmo")){
             PreferStableAmmo = PortalGunNBT.getBoolean("stableAmmo");
@@ -45,13 +45,15 @@ public class PortalScreen extends Screen {
         //Preffered ammo selector
         AmmoSelector = this.addRenderableWidget(Button.builder(GetPreferredAmmoComponent(), (button) -> {
             FlipPreferredAmmo();
-        }).bounds(this.width/2 + 105, this.height/2 - 45, 50, 20).build());
+        }).bounds(this.width/2 + 105 + xOffset, this.height/2 - 45, 50, 20).build());
 
         Player localPlayer = Minecraft.getInstance().player;
+        assert localPlayer != null;
+
         StableAmmo = countItemInInventory(localPlayer, ModItems.PortalProjectileItem.get());
         UnstableAmmo = countItemInInventory(localPlayer, ModItems.PortalProjectileUnstableItem.get());
     }
-    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick, int xOffset) {
         pGuiGraphics.pose().pushPose();
 
         //background
@@ -61,13 +63,13 @@ public class PortalScreen extends Screen {
 
         //title and positions
         pGuiGraphics.drawCenteredString(this.font, Component.translatable("screen.portal.preferred-title"),
-                this.width/2 + 130, this.height/2 - 57, 16777215);
+                this.width/2 + 130 + xOffset, this.height/2 - 57, 16777215);
 
         //Ammo info
         pGuiGraphics.drawCenteredString(this.font, "Stable Capsules: "+StableAmmo,
-                this.width/2 + 130, this.height/2 - 10, 16777215);
+                this.width/2 + 130 + xOffset, this.height/2 - 10, 16777215);
         pGuiGraphics.drawCenteredString(this.font, "Unstable Capsules: "+UnstableAmmo,
-                this.width/2 + 130, this.height/2 + 10, 16777215);
+                this.width/2 + 130 + xOffset, this.height/2 + 10, 16777215);
 
         //GUI title
         pGuiGraphics.drawCenteredString(this.font, this.title, this.width / 2, this.height/2 - 75, 16777215);

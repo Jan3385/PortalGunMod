@@ -47,7 +47,7 @@ public class NormalPortalGunScreen extends PortalScreen {
     }
 
     protected void init(){
-        super.init();
+        super.init(0);
         for(int i = 0; i < 5; i++){
             if(PortalGunNBT.contains("VecX"+i) && PortalGunNBT.contains("VecY"+i) && PortalGunNBT.contains("VecZ"+i)){
                 DestinationPos[i] = new Vec3(
@@ -102,7 +102,7 @@ public class NormalPortalGunScreen extends PortalScreen {
     }
 
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick, 0);
 
         pGuiGraphics.pose().pushPose();
 

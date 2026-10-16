@@ -50,8 +50,7 @@ public class TravelPortalGunItem extends PortalgunItem {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
 
-        pTooltipComponents.add(
-                Component.translatable("tooltip.portalgun").withStyle(ChatFormatting.DARK_GRAY));
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
 
         pTooltipComponents.add(
                 Component.translatable("tooltip.portalgun.special.travel").withStyle(ChatFormatting.GRAY));
@@ -63,7 +62,5 @@ public class TravelPortalGunItem extends PortalgunItem {
         pTooltipComponents.add(
                 Component.translatable("tooltip.portalgun.portalpeople").withStyle(ChatFormatting.GRAY)
                         .append(Component.literal("NO").withStyle(ChatFormatting.DARK_RED)));
-
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

@@ -1,5 +1,5 @@
 {
-  "tooltip.portalgun": "[R] - Default open menu",
+  "tooltip.portalgun": "[%s] - Default open menu",
   "tooltip.portalgun.portalduration": "Portal Duration: ",
   "tooltip.portalgun.portalpeople": "Can multiple people pass: ",
   "tooltip.portalgun.special.normal": "Portal destination can be saved",

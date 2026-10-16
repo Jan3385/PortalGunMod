@@ -53,8 +53,7 @@ public class NormalPortalGunItem extends PortalgunItem {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
 
-        pTooltipComponents.add(
-                Component.translatable("tooltip.portalgun").withStyle(ChatFormatting.DARK_GRAY));
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
 
         pTooltipComponents.add(
                 Component.translatable("tooltip.portalgun.special.normal").withStyle(ChatFormatting.GRAY));
@@ -66,7 +65,5 @@ public class NormalPortalGunItem extends PortalgunItem {
         pTooltipComponents.add(
                 Component.translatable("tooltip.portalgun.portalpeople").withStyle(ChatFormatting.GRAY)
                         .append(Component.literal("YES").withStyle(ChatFormatting.DARK_GREEN)));
-
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }
